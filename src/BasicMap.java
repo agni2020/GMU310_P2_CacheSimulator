@@ -117,28 +117,65 @@ public class BasicMap<K, V> {
 	//******************************************************
 	// ADD PRIVATE METHODS HERE IF NEEDED!
 	// YOU CANNOT ADD MORE DATA MEMBERS
-	
-	
+
+	/**
+	 * mapping key to value in the hashmap.
+	 * @param key hashcode of the object/bucket
+	 * @param value value to be sored in bucket.
+	 */
 	public void put(K key, V value) {
 		// mapping key to value in the hashmap
 		// - throws IllegalArgumentException for null key or null value (with any error msg)
+		if(key == null){
+			throw new IllegalArgumentException("Key cannot be null");
+		}
 		// - if key is new, add a new entry (key, value)
+		int hIndex = getHashIndex(key);
+		if(buckets[hIndex] == null){
+			buckets[hIndex] = new BasicList<>();;
+		}
+
 		// - if key is present, make sure (key, value) is the only mapping of key in hashtable
-		
+		BasicList<Pair> pairList = buckets[hIndex];
+		Iterator<Pair> pairListItr =  pairList.iterator();
+
+		while (pairListItr.hasNext()){
+			Pair pair = pairListItr.next();
+			if(pair.getKey().equals(key)){
+				pair.setValue(value);
+				return;
+			}
+		}
+		pairList.addLast(new Pair(key, value));
+		size++;
 		// Note: Implement the hash table with separate chaining.
 		// - when a new (key,value) pair is added, add it to the end of the chain
 		// - if key is already present, you should just change its mapping. 
 		//    do not remove the key then add it back, which is less efficient.
 		
 		// O(load) on average, and O(n) worst case
-
-		
     }
 
+	private int getHashIndex(K key) {
+		return Math.abs(key.hashCode() % DEFAULT_CAPACITY);
+	}
+
 	public V get(K key) {
-		// return the current mapping of key
 		// if key is null or not present, return null
-		//	
+		if(key == null || buckets[getHashIndex(key)] == null){
+			return null;
+		}
+		// return the current mapping of key
+		BasicList<Pair> pairList = buckets[getHashIndex(key)];
+		Iterator<Pair> pairListItr =  pairList.iterator();
+
+		while (pairListItr.hasNext()){
+			Pair pair = pairListItr.next();
+			if(pair.getKey().equals(key)){
+				return pair.value;
+			}
+		}
+
 		// O(load) on average, and O(n) worst case
 
 		//default return, remove or update as needed
@@ -147,10 +184,29 @@ public class BasicMap<K, V> {
 
 	public V delete(K key){
 
+		// if key is null or not present, return null
+		if(key == null || buckets[getHashIndex(key)] == null){
+			return null;
+		}
 		// return the current mapping of key from hashmap and delete it
-		// -if key is null or not present, return null
-		// 
-	
+		// return the current mapping of key
+		BasicList<Pair> pairList = buckets[getHashIndex(key)];
+		Iterator<Pair> pairListItr =  pairList.iterator();
+
+		Pair nodeToDelete = null;
+
+		while (pairListItr.hasNext()){
+			Pair pair = pairListItr.next();
+			if(pair.getKey().equals(key)){
+				nodeToDelete = pair;
+				break;
+			}
+		}
+		if(nodeToDelete != null){
+			pairList.remove(nodeToDelete);
+			size--;
+			return nodeToDelete.getValue();
+		}
 		// O(load) on average, and O(n) worst case
 	
 		//default return, remove or update as needed
