@@ -15,14 +15,15 @@ public class LruCache implements Cache {
 	// - if cap is not positive, throw an IllegalArgumentException (with any error msg)
 	//O(1)
 	public LruCache(int cap){
-
+		this.storage = new BasicList<>();
+		this.capacity = cap;
 	}
 	
 	//return true if cache is full; false otherwise
 	//O(1)
 	public boolean isFull(){
 		//default return; update or change as needed
-		return false;
+		return capacity == storage.size();
 
 	}
 
@@ -31,7 +32,7 @@ public class LruCache implements Cache {
 	//O(1)
 	public int capacity(){
 		//default return; update or change as needed
-		return -2;
+		return capacity;
 
 	}
 
@@ -39,7 +40,7 @@ public class LruCache implements Cache {
 	//O(1)
 	public int size(){
 		//default return; update or change as needed
-		return -2;
+		return storage.size();
 
 	}
 	
@@ -48,7 +49,7 @@ public class LruCache implements Cache {
 	//O(1)
 	public String nextToReplace(){
 		//default return; update or change as needed
-		return null;
+		return isFull()?storage.getFirst():null;
 
 	}
 	
@@ -59,9 +60,19 @@ public class LruCache implements Cache {
 	//O(n) where n is the number of items in cache
 
 	public boolean access(String addr){
-		//default return; update or change as needed
-		return false;
-
+		if(addr == null){
+			throw new IllegalArgumentException("Address cannot be null");
+		}
+		Node<String> page = storage.getNode(addr);
+		if(page == null){
+			if(isFull())
+				storage.removeFirst();
+			storage.addLast(addr);
+			return false;
+		}else{
+			storage.moveToBack(addr);
+			return true;
+		}
 	}
 
 			
@@ -72,7 +83,7 @@ public class LruCache implements Cache {
 	@Override
 	public String toString(){
 		//default return; update or change as needed
-		return null;
+		return storage.listToString();
 
 	}
 	
