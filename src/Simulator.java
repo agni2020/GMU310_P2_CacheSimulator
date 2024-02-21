@@ -132,7 +132,7 @@ public class Simulator{
 			index++;
 		}
 		
-		System.out.format("Hit Rate: %.2f%%\n", (double)hits/(index+1)*100 );
+		System.out.format("Hit Rate: %.2f%%\n", (double)hits/index*100 );
 
 		if (detailed){
 			System.out.println("Accesses: "+ accRecord);
@@ -148,8 +148,9 @@ public class Simulator{
 	 * @throws IOException If an input exception occurred with input filename
 	 */
 	public static BasicList<String> fileToAddrQueue(String filename) throws IOException {
-		
-		Scanner s = new Scanner(new File(filename));		
+		File f = new File(filename);
+		System.out.println(f.getAbsolutePath());
+		Scanner s = new Scanner(f);
 		BasicList<String> queue = new BasicList<>();
 		
 		while(s.hasNext()) {
