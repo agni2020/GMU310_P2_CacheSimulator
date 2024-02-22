@@ -78,14 +78,15 @@ public class LfuCache implements Cache {
 	// - if cap is not positive, throw an IllegalArgumentException (with any error msg)
 	//O(1)
 	public LfuCache(int cap){
-
+		storage = new SortedList<>();
+		this.capacity = cap;
 	}
 
 	//return true if cache is full; false otherwise
 	//O(1)
 	public boolean isFull(){
 		//default return; update or change as needed
-		return false;
+		return this.capacity == size();
 
 	}
 
@@ -93,7 +94,7 @@ public class LfuCache implements Cache {
 	//O(1)
 	public int capacity(){
 		//default return; update or change as needed
-		return -2;
+		return this.capacity;
 
 	}
 	
@@ -101,7 +102,7 @@ public class LfuCache implements Cache {
 	//O(1)
 	public int size(){
 		//default return; update or change as needed
-		return -2;
+		return storage.size();
 
 	}
 
@@ -110,7 +111,7 @@ public class LfuCache implements Cache {
 	//O(1)
 	public String nextToReplace(){
 		//default return; update or change as needed
-		return null;
+		return isFull()?storage.getFirst().data:null;
 
 	}
 	
@@ -122,7 +123,21 @@ public class LfuCache implements Cache {
 
 	public boolean access(String addr){
 		//default return; update or change as needed
-		return false;
+
+		if(addr == null){
+			throw new IllegalArgumentException("Address cannot be null");
+		}
+		Node<Block> page = storage.getNode(new Block(addr));
+		if(page != null){
+			page.getData().incCount();
+			storage.moveToBack(page.getData());
+			return true;
+		}else{
+			if(isFull())
+				storage.removeFirst();
+			storage.add(new Block(addr));
+			return false;
+		}
 	
 	}
 
@@ -135,7 +150,7 @@ public class LfuCache implements Cache {
 	@Override
 	public String toString(){
 		//default return; update or change as needed
-		return null;
+		return storage.listToString();
 
 	}
 

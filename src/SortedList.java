@@ -129,6 +129,6 @@ public class SortedList<T extends Comparable<T>> extends BasicList<T> {
 			System.out.println("Yay2");				
 		}
 
-		
+		System.out.println(items.listToString());
 	}	
 }
