@@ -6,6 +6,11 @@
 import java.util.Iterator;
 
 
+/**
+ * Basic map with seperate chaining methodology.
+ * @param <K> represents the key.
+ * @param <V> represents the value.
+ */
 public class BasicMap<K, V> {
 	
 	//******************************************************
@@ -14,11 +19,25 @@ public class BasicMap<K, V> {
 	//*******		   Remember to add JavaDoc		 *******
 	//******************************************************
 
-	//each entry of the hash map would be a <key, value> pair, 
-	//key of type K and value of type V
+	/**
+	 * each entry of the hash map would be a &lt;key, value&gt; pair, key of type K and value of type V.
+	 */
 	private class Pair {
+
+		/**
+		 * Key object that keys the value.
+		 */
 		private K key;
+		/**
+		 * Value object to hold value.
+		 */
 		private V value;
+
+		/**
+		 * Constructor to create the Pair object.
+		 * @param key represents the key.
+		 * @param value represents the value.
+		 */
 		public Pair(K key, V value){
 			this.key = key;
 			this.value = value;
@@ -51,35 +70,62 @@ public class BasicMap<K, V> {
 		
 	}
 
-	// This hash map implementation uses an array of BasicList
-	// where each list will be composed of Node<Pair>
+	/**
+	 * This hash map implementation uses an array of BasicList where each list will be composed of Node&lt;Pair&gt;.
+	 */
 	private BasicList<Pair>[] buckets;
 
-	// will fix the capacity to 7
+
+	/**
+	 * will fix the capacity to 7.
+	 */
 	final static private int DEFAULT_CAPACITY = 7;
 
-	// track how many elements in HashMap
+	/**
+	 * track how many elements in HashMap.
+	 */
 	private int size;
-	
+
+	/**
+	 * Constructor to create the map.
+	 */
 	@SuppressWarnings("unchecked")
 	public BasicMap() {
 		buckets = (BasicList<Pair>[])new BasicList[DEFAULT_CAPACITY];
 		size = 0;
 	}
 
+
+	/**
+	 * Size of the map.
+	 * @return size of the map.
+	 */
 	public int size() {
 		return size;
 	}
 
+	/**
+	 * To find the capacity to the map.
+	 * @return integer value.
+	 */
 	private int capacity() {
 		return buckets.length;
 	}
 
+	/**
+	 * Absolute hash code if the key.
+	 * @param key to find hashcode.
+	 * @return hashcode of the key.
+	 */
 	private int getHash(K key) {
 		return Math.abs(key.hashCode());
 	}
 
-	
+
+	/**
+	 * String representation of map.
+	 * @return string value.
+	 */
 	public String toStringDebug() {
 		//print all entries of buckets, including null ones
 		StringBuilder sb = new StringBuilder();
@@ -130,13 +176,13 @@ public class BasicMap<K, V> {
 			throw new IllegalArgumentException("Key cannot be null");
 		}
 		// - if key is new, add a new entry (key, value)
-		int hIndex = getHashIndex(key);
-		if(buckets[hIndex] == null){
-			buckets[hIndex] = new BasicList<>();;
+		int hashIndex = getHashIndex(key);
+		if(buckets[hashIndex] == null){
+			buckets[hashIndex] = new BasicList<>();;
 		}
 
 		// - if key is present, make sure (key, value) is the only mapping of key in hashtable
-		BasicList<Pair> pairList = buckets[hIndex];
+		BasicList<Pair> pairList = buckets[hashIndex];
 		Iterator<Pair> pairListItr =  pairList.iterator();
 
 		while (pairListItr.hasNext()){
@@ -156,10 +202,20 @@ public class BasicMap<K, V> {
 		// O(load) on average, and O(n) worst case
     }
 
+	/**
+	 * Computes the hashIndex of given key.
+	 * @param key to compute.
+	 * @return hashIndex according to capacity.
+	 */
 	private int getHashIndex(K key) {
 		return Math.abs(key.hashCode() % DEFAULT_CAPACITY);
 	}
 
+	/**
+	 * Return value related to given key.
+	 * @param key of the object.
+	 * @return value corresponding to key.
+	 */
 	public V get(K key) {
 		// if key is null or not present, return null
 		if(key == null || buckets[getHashIndex(key)] == null){
@@ -182,6 +238,11 @@ public class BasicMap<K, V> {
 		return null;
 	}
 
+	/**
+	 * Deletes the item with key.
+	 * @param key to be deleted.
+	 * @return corresponding value
+	 */
 	public V delete(K key){
 
 		// if key is null or not present, return null
@@ -220,7 +281,11 @@ public class BasicMap<K, V> {
 	//*******      Edit it as much as you'd like!    *******
 	//*******		Remember to add JavaDoc			 *******
 	//******************************************************
-	
+
+	/**
+	 * Main method to test BasicMap.
+	 * @param args CLI Arguments.
+	 */
 	public static void main(String args[]) {
 		BasicMap<String, String> map = new BasicMap<>();
 		

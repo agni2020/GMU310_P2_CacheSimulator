@@ -4,7 +4,10 @@
 
 import java.util.Iterator;
 
-// singly linked list, no dummy nodes
+/**
+ * singly linked list, no dummy nodes.
+ * @param <T> the type of element in the basic list
+ */
 public class BasicList<T> implements Iterable<T> { 
 
 	//******************************************************
@@ -13,11 +16,25 @@ public class BasicList<T> implements Iterable<T> {
 	//*******         Remember to add JavaDoc        *******
 	//******************************************************
 	
-	// start of the list; do NOT change the name/type of this
+	/**
+	 * start of the list.
+	 */
 	protected Node<T> head = null;
+
+	/**
+	 * end of the list.
+	 */
 	protected Node<T> tail = null;
+
+	/**
+	 * size of the list.
+	 */
 	protected int size;
 
+	/**
+	 * Return an iterator that traverses from.
+	 * @return iterator object
+	 */
 	public Iterator<T> iterator() {
 		//Return an iterator that traverses from
 		//the beginning to the end of the list.
@@ -75,7 +92,7 @@ public class BasicList<T> implements Iterable<T> {
 
 	/**
 	 * insert a new node with value at the beginning of the list O(1).
-	 * @param value: null value not allowed. throw IllegalArgumentException (with any error msg) if value is null.
+	 * @param value null value not allowed. throw IllegalArgumentException (with any error msg) if value is null.
 	 */
 	public void addFirst(T value) {
 		if(value == null){
@@ -103,7 +120,7 @@ public class BasicList<T> implements Iterable<T> {
 	}
 
 	/**
-	 *
+	 * returns last element in list.
 	 * @return return the last value from the end of the list
 	 */
 	public T getLast() {
@@ -169,7 +186,7 @@ public class BasicList<T> implements Iterable<T> {
 	/**
 	 * remove and return the first occurence of value.
 	 * O(n) where n is the number of items in list.
-	 * @param value
+	 * @param value to be removed.
 	 * @return return null if value is null or not present.
 	 */
 	public T remove(T value) {
@@ -213,10 +230,11 @@ public class BasicList<T> implements Iterable<T> {
 		return null;
 	}
 
-	//return the index of the first occurence of value 
-	// (i.e. the occurence that is closest to the start of the list)
-	// return -1 if value is null or not present	
-	//O(n) where n is the number of items in list
+	/**
+	 * return the index of the first occurence of value.
+	 * @param value to search
+	 * @return -1 if value is null or not present
+	 */
 	public int indexOf(T value) {
 		int index = 0;
 		Node<T> current = head;
@@ -433,6 +451,12 @@ public class BasicList<T> implements Iterable<T> {
 	//        do NOT remove then add the value back using a new node
 	//        Points will be deducted in grading if you do so.
 	//O(n) where n is the number of items in list
+
+	/**
+	 * find the first node that contains the given value,and move the node one location closer to end of the list.
+	 * @param value to be moved.
+	 * @return true if operation successful.
+	 */
 	public boolean moveBackward(T value) {
 		if (head == null || size <= 1) {
 			// If the list is empty or has only one element, no need to move backward
@@ -495,34 +519,17 @@ public class BasicList<T> implements Iterable<T> {
 		return false;
 	}
 
-
-	public static void mainn(String[] args) {
-		// Create a BasicList
-		BasicList<Integer> list = new BasicList<>();
-		list.addLast(12);
-		list.addLast(34);
-		list.addLast(56);
-		list.addLast(23);
-		list.addLast(67);
-
-		// Expected state before moveBackward(34)
-		System.out.println(list.listToString());
-
-		// Perform moveBackward(34)
-		System.out.println(list.moveToBack(23));
-
-		// Expected state after moveBackward(34)
-		System.out.println(list.listToString());
-	}
-
-
 	//******************************************************
 	//*******     BELOW THIS LINE IS TESTING CODE    *******
 	//*******      Edit it as much as you'd like!    *******
 	//*******        Remember to add JavaDoc         *******
 	//******************************************************
-	
 
+
+	/**
+	 * Entry to test BasicList.
+	 * @param args cli arguments.
+	 */
 	public static void main(String[] args) {
 
 		//a list of integers	
@@ -636,12 +643,27 @@ public class BasicList<T> implements Iterable<T> {
 		}
 
 
-		//remove special case
+		/**
+		 * Some Type class.
+		 */
 		class SomeType{
+
+			/**
+			 * Value to hold.
+			 */
 			private String value;
 
+			/**
+			 * Constructor to create object.
+			 * @param value to hold.
+			 */
 			public SomeType(String value) { this.value = value; }
-			
+
+			/**
+			 * Equality check of two objects.
+			 * @param o  object to be compared.
+			 * @return true if equal and false if not equal.
+			 */
 			public boolean equals(Object o) {
 				if (!(o instanceof SomeType)) return false;
 				

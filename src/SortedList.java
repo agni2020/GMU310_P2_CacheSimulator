@@ -1,7 +1,10 @@
 // TO DO: add your implementation and JavaDocs.
 import java.util.Iterator;
 
-//sorted list extended from BasicList
+/**
+ * sorted list extended from BasicList.
+ * @param <T> generic type to hold List of items.
+ */
 public class SortedList<T extends Comparable<T>> extends BasicList<T> { 
 
 	// add a value into current list;
@@ -15,6 +18,10 @@ public class SortedList<T extends Comparable<T>> extends BasicList<T> {
 	
 	//O(n) where n is the number of items in list
 
+	/**
+	 * Adds the value to List.
+	 * @param value to be added.
+	 */
 	public void add(T value) {
 		// Check for null value
 		if (value == null) {
@@ -42,7 +49,13 @@ public class SortedList<T extends Comparable<T>> extends BasicList<T> {
 		}
 	}
 
-	// Private method to insert at a specific index
+	//
+
+	/**
+	 * Private method to insert at a specific index.
+	 * @param index position to insert value.
+	 * @param value to be inserted at index.
+	 */
 	private void insertAtIndex(int index, T value) {
 		Node<T> newNode = new Node<>(value);
 		if (index == 0) {
@@ -60,7 +73,13 @@ public class SortedList<T extends Comparable<T>> extends BasicList<T> {
 
 	}
 
-	// Add this private method to your SortedList class
+	//
+
+	/**
+	 * Add this private method to your SortedList class.
+	 * @param index to get the value.
+	 * @return node at specified index.
+	 */
 	private Node<T> getNode(int index) {
 		if (index < 0 || index >= size()) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
@@ -82,6 +101,10 @@ public class SortedList<T extends Comparable<T>> extends BasicList<T> {
 	//*******        Remember to add JavaDoc         *******
 	//******************************************************
 
+	/**
+	 * Entry point to test SortedList.
+	 * @param args CLI arguments.
+	 */
 	public static void main(String[] args) {
 		SortedList<String> names = new SortedList<>();
 		
@@ -97,12 +120,20 @@ public class SortedList<T extends Comparable<T>> extends BasicList<T> {
 		}
 
 		//System.out.println(names.listToString());
-		
+
+		/**
+		 * SomeType is Class to represent some type.
+		 */
 		class SomeType implements Comparable<SomeType> {
 			private String value;
 
 			public SomeType(String value) { this.value = value; }
-			
+
+			/**
+			 * Compares and provides the difference value.
+			 * @param other the object to be compared.
+			 * @return difference value.
+			 */
 			public int compareTo(SomeType other) {
 				//use the length to compare
 				return this.value.length() - other.value.length();

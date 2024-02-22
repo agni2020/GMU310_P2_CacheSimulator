@@ -1,7 +1,9 @@
 // TO DO: add your implementation and JavaDocs.
 import java.util.Iterator;
 
-//Cache implementing LFU replacement policy
+/**
+ * Cache implementing LFU replacement policy.
+ */
 public class LfuCache implements Cache { 
 
 	//******************************************************
@@ -10,37 +12,60 @@ public class LfuCache implements Cache {
 	//*******		   Remember to add JavaDoc		 *******
 	//******************************************************
 
-	//wrap each item we need to save in cache in a block and keep the access count
+	/**
+	 * wrap each item we need to save in cache in a block and keep the access count.
+	 */
 	private class Block implements Comparable<Block> {
 	
-		//data item to store in cache
+		/**
+		 * data item to store in cache.
+		 */
 		private String data;
 		
-		//how many times this item is accessed since it is loaded in
+		/**
+		 *how many times this item is accessed since it is loaded in.
+		 */
 		private int count;
 		
-		//constructor
+		/**
+		 * constructorto create the page.
+		 * @param addr of the page.
+		 */
 		public Block(String addr){
 			this.data = addr;
 			count = 1;
 		}
 	
-		//getter of count
+		/**
+		 * getter of count.
+		 * @return count.
+		 */
 		public int getCount(){
 			return count;
 		}
 		
-		//increment count 
+		/**
+		 * increment count.
+		 */
 		public void incCount(){
 			count++;
 		}
 		
-		//getter of data item
+		//
+
+		/**
+		 * getter of data item.
+		 * @return data of the item.
+		 */
 		public String getData(){
 			return data;
 		}
-		
-		//used to determine whether an item is already in cache
+
+		/**
+		 * used to determine whether an item is already in cache.
+		 * @param other to be compared.
+		 * @return difference value.
+		 */
 		@Override
 		public boolean equals(Object other){
 			if (other instanceof Block){
@@ -51,7 +76,11 @@ public class LfuCache implements Cache {
    			return false;		
 		}
 		
-		//used to compare two items based on their access counts
+		/**
+		 * used to compare two items based on their access counts.
+		 * @param other the object to be compared.
+		 * @return difference between to values.
+		 */
 		public int compareTo(Block other){
 			return this.count - other.count;			
 		}
@@ -62,9 +91,15 @@ public class LfuCache implements Cache {
 			return "<"+data.toString()+","+count+">";
 		}
 	}
-	
+
+	/**
+	 * max number of pages to store in cache.
+	 */
 	private int capacity;
-	private SortedList<Block> storage; //NOTE: SortedList! List of Blocks! 
+	/**
+	 * SortedList! List of Blocks.
+	 */
+	private SortedList<Block> storage; //NOTE:
 
 	//******************************************************
 	//*******    	END of PROVIDED Code 	 		 *******
@@ -74,53 +109,60 @@ public class LfuCache implements Cache {
 	// YOU CANNOT ADD MORE DATA MEMBERS!
 	// ADD PRIVATE HELPER METHODS IF NEEDED!
 
-	//constructor for a cache with capacity as cap	
-	// - if cap is not positive, throw an IllegalArgumentException (with any error msg)
-	//O(1)
+	/**
+	 * constructor for a cache with capacity as cap.
+	 * @param cap is not positive, throw an IllegalArgumentException (with any error msg).
+	 */
 	public LfuCache(int cap){
 		storage = new SortedList<>();
 		this.capacity = cap;
 	}
 
-	//return true if cache is full; false otherwise
-	//O(1)
+	/**
+	 * check if storage is full.
+	 * @return true if cache is full; false otherwise.
+	 */
 	public boolean isFull(){
 		//default return; update or change as needed
 		return this.capacity == size();
 
 	}
 
-	//report max number of items allowed in cache
-	//O(1)
+	/**
+	 * report max number of items allowed in cache.
+	 * @return  max number of items allowed in cache.
+	 */
 	public int capacity(){
 		//default return; update or change as needed
 		return this.capacity;
 
 	}
 	
-	//report the number of items stored in cache
-	//O(1)
+	/**
+	 * report the number of items stored in cache.
+	 * @return report the number of items stored in cache.
+	 */
 	public int size(){
 		//default return; update or change as needed
 		return storage.size();
 
 	}
 
-	//return item that will be evicted if the next access is a miss
-	//return null if no item will be evicted
-	//O(1)
+	/**
+	 * return item that will be evicted if the next access is a miss.
+	 * @return return item that will be evicted if the next access is a miss.
+	 */
 	public String nextToReplace(){
 		//default return; update or change as needed
 		return isFull()?storage.getFirst().data:null;
 
 	}
 	
-	//determine whether the access to addr is a hit or miss
-	//return true for a hit and false for a miss
-	// perform necessary updating to maintain the LRU cache
-	// - if addr is null, throw an IllegalArgumentException (with any error msg)
-	//O(n) where n is the number of items in cache
-
+	/**
+	 * determine whether the access to addr is a hit or miss.
+	 * @param addr the address requested by the next access.
+	 * @return  true for a hit and false for a miss.
+	 */
 	public boolean access(String addr){
 		//default return; update or change as needed
 
