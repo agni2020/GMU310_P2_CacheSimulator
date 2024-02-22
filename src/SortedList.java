@@ -14,11 +14,68 @@ public class SortedList<T extends Comparable<T>> extends BasicList<T> {
 	// - if value is null, throw an IllegalArgumentException (with any error msg)
 	
 	//O(n) where n is the number of items in list
-	
-	public void add(T value){
+
+	public void add(T value) {
+		// Check for null value
+		if (value == null) {
+			throw new IllegalArgumentException("Cannot add null value to the list.");
+		}
+
+		// If the list is empty, simply add the value
+		if (size() == 0) {
+			addFirst(value);
+			return;
+		}
+
+		// Iterate through the list to find the correct position to insert the new value
+		int index = 0;
+		while (index < size() && value.compareTo(getNode(index).getData()) >= 0) {
+			index++;
+		}
+
+		// If index is at the end, add the value at the end of the list
+		if (index == size()) {
+			addLast(value);
+		} else {
+			// Otherwise, insert the value at the correct position
+			insertAtIndex(index, value);
+		}
+	}
+
+	// Private method to insert at a specific index
+	private void insertAtIndex(int index, T value) {
+		Node<T> newNode = new Node<>(value);
+		if (index == 0) {
+			newNode.setNext(head);
+			head = newNode;
+		} else {
+			Node<T> current = getNode(index - 1);
+			if(current == tail){
+				tail = newNode;
+			}
+			newNode.setNext(current.getNext());
+			current.setNext(newNode);
+		}
+		size++;
 
 	}
-	
+
+	// Add this private method to your SortedList class
+	private Node<T> getNode(int index) {
+		if (index < 0 || index >= size()) {
+			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+		}
+
+		Node<T> current = head;
+		for (int i = 0; i < index; i++) {
+			current = current.getNext();
+		}
+
+		return current;
+	}
+
+
+
 	//******************************************************
 	//*******     BELOW THIS LINE IS TESTING CODE    *******
 	//*******      Edit it as much as you'd like!    *******

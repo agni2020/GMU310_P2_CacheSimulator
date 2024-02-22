@@ -15,8 +15,8 @@ public class BasicList<T> implements Iterable<T> {
 	
 	// start of the list; do NOT change the name/type of this
 	protected Node<T> head = null;
-	private Node<T> tail = null;
-	private int size;
+	protected Node<T> tail = null;
+	protected int size;
 
 	public Iterator<T> iterator() {
 		//Return an iterator that traverses from
@@ -84,6 +84,9 @@ public class BasicList<T> implements Iterable<T> {
 		Node<T> newNode = new Node<>(value);
 		newNode.setNext(head);
 		head = newNode;
+		if(tail == null){
+			tail = newNode;
+		}
 		size++;
 	}
 	
